@@ -1,0 +1,367 @@
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body {
+  margin: 0;
+  background-color: #050505; /* Deep dark background */
+  color: #fff;
+  overflow: hidden;
+  font-family: 'Inter', sans-serif;
+}
+
+.banner {
+  width: 100%;
+  height: 100vh;
+  text-align: center;
+  overflow: hidden;
+  position: relative;
+}
+
+/* THE 3D SLIDER */
+.banner .slider {
+  position: absolute;
+  width: 220px;
+  height: 300px;
+  top: 15%;
+  left: calc(50% - 110px); /* Center the slider horizontally */
+  transform-style: preserve-3d;
+  transform: perspective(1000px);
+  animation: autoRun 20s linear infinite;
+  z-index: 2;
+}
+
+@keyframes autoRun {
+  from {
+    transform: perspective(1000px) rotateX(-12deg) rotateY(0deg);
+  }
+  to {
+    transform: perspective(1000px) rotateX(-12deg) rotateY(360deg);
+  }
+}
+
+.banner .slider .item {
+  position: absolute;
+  inset: 0 0 0 0;
+  /* Calculate the rotation based on the position and quantity variables */
+  transform: 
+    rotateY(calc( (var(--position) - 1) * (360 / var(--quantity)) * 1deg))
+    translateZ(320px);
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.banner .slider .item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.banner .slider .item:hover img {
+  transform: scale(1.1); /* Subtle hover effect on the items */
+}
+
+/* BACKGROUND TEXT AND AUTHOR INFO */
+.banner .content {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(1400px, 100vw);
+  height: max-content;
+  padding-bottom: 100px;
+  padding-inline: 40px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 1;
+}
+
+.banner .content h1 {
+  font-size: clamp(4em, 10vw, 12em);
+  line-height: 1em;
+  color: #111;
+  position: relative;
+  font-weight: 900;
+  letter-spacing: -2px;
+  margin: 0;
+}
+
+.banner .content h1::after {
+  position: absolute;
+  inset: 0 0 0 0;
+  content: attr(data-content);
+  z-index: 2;
+  -webkit-text-stroke: 2px #444; /* Give it the hollow outlined look */
+  color: transparent;
+}
+
+.banner .content .author {
+  text-align: right;
+  max-width: 300px;
+}
+
+.banner .content h2 {
+  font-size: 2.5em;
+  margin-bottom: 10px;
+  background: linear-gradient(90deg, #fff, #888);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.banner .content p {
+  color: #a0a0a0;
+  font-size: 1.1em;
+  line-height: 1.5;
+}
+
+.banner .content p b {
+  color: #fff;
+}
+
+/* RESPONSIVE ADJUSTMENTS */
+@media screen and (max-width: 900px) {
+  .banner .content {
+    justify-content: center;
+    text-align: center;
+    gap: 40px;
+    padding-bottom: 60px;
+  }
+  
+  .banner .content .author {
+    text-align: center;
+  }
+
+  .banner .slider {
+    top: 25%;
+    width: 160px;
+    height: 220px;
+    left: calc(50% - 80px);
+  }
+  
+  .banner .slider .item {
+    transform: 
+      rotateY(calc( (var(--position) - 1) * (360 / var(--quantity)) * 1deg))
+      translateZ(240px);
+  }
+}
+
+/* ========================================= */
+/* DETAIL VIEW STYLES & EFFECTS              */
+/* ========================================= */
+
+.banner .slider .item {
+  cursor: pointer;
+}
+
+body.viewing-detail .slider {
+  animation-play-state: paused;
+}
+
+.detail-view {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 100;
+  background-color: #000;
+  opacity: 0;
+  pointer-events: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  perspective: 1500px;
+}
+
+.detail-view:not(.hidden) {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Dynamic Background Layer */
+.detail-bg {
+  position: absolute;
+  top: -10%;
+  left: -10%;
+  width: 120%;
+  height: 120%;
+  z-index: 1;
+  background-size: cover;
+  background-position: center;
+  filter: blur(15px) brightness(0.3);
+  transition: background-image 0.5s ease;
+}
+
+.bg-eagle { background-image: url('images/eagle.jpg'); }
+.bg-lion { background-image: url('images/Lion.jpg'); }
+.bg-tiger { background-image: url('images/tiger.jpg'); }
+
+/* Particle System Styles */
+.particle {
+  position: absolute;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.particle.feather {
+  width: 8px;
+  height: 15px;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 50% 0 50% 0;
+  box-shadow: 0 0 5px rgba(255,255,255,0.5);
+}
+
+.particle.dust {
+  width: 4px;
+  height: 4px;
+  background: #f4d03f;
+  border-radius: 50%;
+  box-shadow: 0 0 8px #f4d03f;
+  opacity: 0.8;
+}
+
+.particle.leaf {
+  width: 15px;
+  height: 15px;
+  background: #27ae60;
+  border-radius: 0 50% 0 50%;
+  opacity: 0.6;
+}
+
+/* UI Elements */
+.close-btn {
+  position: absolute;
+  top: 40px;
+  left: 40px;
+  z-index: 10;
+  background: rgba(255,255,255,0.1);
+  color: white;
+  border: 1px solid rgba(255,255,255,0.3);
+  padding: 12px 24px;
+  border-radius: 30px;
+  font-size: 1.1em;
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+  backdrop-filter: blur(5px);
+  transition: all 0.3s;
+}
+
+.close-btn:hover {
+  background: rgba(255,255,255,0.2);
+  transform: translateX(-5px);
+}
+
+/* Detail Content Layout */
+.detail-content {
+  position: relative;
+  z-index: 5;
+  display: flex;
+  max-width: 1200px;
+  width: 90%;
+  gap: 60px;
+  align-items: center;
+  transform-style: preserve-3d;
+}
+
+.detail-image-wrapper {
+  flex: 1;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 40px 80px rgba(0,0,0,0.8);
+  border: 1px solid rgba(255,255,255,0.2);
+}
+
+.detail-image-wrapper img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.detail-text {
+  flex: 1;
+  color: white;
+}
+
+.detail-text h1 {
+  font-size: 5em;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-shadow: 0 10px 20px rgba(0,0,0,0.5);
+  font-weight: 900;
+}
+
+.bio-data {
+  background: rgba(0,0,0,0.4);
+  padding: 30px;
+  border-radius: 15px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.1);
+  margin-bottom: 30px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+}
+
+.bio-data p {
+  font-size: 1.1em;
+  line-height: 1.6;
+  color: #ddd;
+  margin-bottom: 20px;
+}
+
+.stats-list {
+  list-style: none;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+.stats-list li {
+  font-size: 0.95em;
+  color: #bbb;
+}
+
+.stats-list li strong {
+  color: white;
+  display: block;
+  font-size: 1.1em;
+  margin-bottom: 5px;
+}
+
+.wiki-btn {
+  display: inline-block;
+  background: #fff;
+  color: #000;
+  text-decoration: none;
+  padding: 15px 30px;
+  border-radius: 30px;
+  font-weight: bold;
+  transition: transform 0.3s;
+}
+
+.wiki-btn:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(255,255,255,0.2);
+}
+
+@media screen and (max-width: 900px) {
+  .detail-content {
+    flex-direction: column;
+    gap: 30px;
+    margin-top: 60px;
+  }
+  .detail-text h1 {
+    font-size: 3em;
+  }
+  .detail-image-wrapper {
+    max-width: 80%;
+    margin: 0 auto;
+  }
+}

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>3D Cinematic Gallery</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="style.css">
+  <!-- Include GSAP for smooth 3D animations -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+</head>
+<body>
+
+<!-- MAIN GALLERY VIEW -->
+<div class="banner">
+  <div class="slider" id="slider" style="--quantity: 9">
+    <div class="item" style="--position: 1" data-animal="lion"><img src="images/Lion.jpg" alt="Lion"></div>
+    <div class="item" style="--position: 2" data-animal="eagle"><img src="images/eagle.jpg" alt="Eagle"></div>
+    <div class="item" style="--position: 3" data-animal="tiger"><img src="images/tiger.jpg" alt="Tiger"></div>
+    <div class="item" style="--position: 4" data-animal="lion"><img src="images/Lion.jpg" alt="Lion"></div>
+    <div class="item" style="--position: 5" data-animal="eagle"><img src="images/eagle.jpg" alt="Eagle"></div>
+    <div class="item" style="--position: 6" data-animal="tiger"><img src="images/tiger.jpg" alt="Tiger"></div>
+    <div class="item" style="--position: 7" data-animal="lion"><img src="images/Lion.jpg" alt="Lion"></div>
+    <div class="item" style="--position: 8" data-animal="eagle"><img src="images/eagle.jpg" alt="Eagle"></div>
+    <div class="item" style="--position: 9" data-animal="tiger"><img src="images/tiger.jpg" alt="Tiger"></div>
+  </div>
+  
+  <div class="content">
+    <h1 data-content="WILDLIFE 3D">
+      WILDLIFE 3D
+    </h1>
+    <div class="author">
+      <h2>RICHIE</h2>
+      <p><b>Web Design</b></p>
+      <p>CSS-only 3D Image Slider Effect</p>
+    </div>
+  </div>
+</div>
+
+<!-- INTERACTIVE DETAIL VIEW -->
+<div id="detailView" class="detail-view hidden">
+  <div class="detail-bg" id="detailBg">
+    <!-- Dynamic background effects (particles, leaves) will be injected here -->
+  </div>
+  
+  <button id="closeBtn" class="close-btn">← Back to Gallery</button>
+  
+  <div class="detail-content" id="detailContent">
+    <div class="detail-image-wrapper">
+      <img id="detailImage" src="" alt="Animal Image">
+    </div>
+    <div class="detail-text">
+      <h1 id="detailTitle">Title</h1>
+      <div class="bio-data">
+        <p id="detailDesc">Description</p>
+        <ul id="detailStats" class="stats-list">
+          <!-- specific stats injected here -->
+        </ul>
+      </div>
+      <a href="#" id="wikiLink" target="_blank" class="wiki-btn">Read Wikipedia Page</a>
+    </div>
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
